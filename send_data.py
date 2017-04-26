@@ -8,11 +8,11 @@ sense = SenseHat()
 hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
 
-topic_time = "krohak/test/time"
-topic_hum = "krohak/test/hum"
-topic_temp = "krohak/test/temp"
-topic_pres = "krohak/test/pres"
-topic_nor = "krohak/test/nor"
+topic_time = "TIME"
+topic_hum = "HUM"
+topic_temp = "TEMP"
+topic_pres = "PRES"
+topic_nor = "NOR"
 
 try:
 

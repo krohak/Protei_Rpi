@@ -13,12 +13,12 @@ data=""
 hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
 
-topic = "krohak/#"
-topic_time = "krohak/test/time"
-topic_hum = "krohak/test/hum"
-topic_temp = "krohak/test/temp"
-topic_pres = "krohak/test/pres"
-topic_nor = "krohak/test/nor"
+topic = "TOPIC"
+topic_time = "TIME"
+topic_hum = "HUM"
+topic_temp = "TEMP"
+topic_pres = "PRES"
+topic_nor = "NOR"
 
 def on_connect(client, userdata, rc):
         # Successful connection is '0'
