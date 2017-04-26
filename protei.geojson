@@ -1,0 +1,2 @@
+{"type": "FeatureCollection", "features": [{"geometry": {"type": "Point", "coordinates": [114.135421, 22.283063]}, "type": "Feature", "properties": {"Magnetometer": "323.232712622", "Pressure": "1002.42578125", "Humidity": "45.7201347351", "Temperature": "33.5729141235", "Time": "2017-04-24 21:29:21.063524"}}]}
+
