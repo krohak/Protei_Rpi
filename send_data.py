@@ -1,46 +1,63 @@
-import socket
+import paho.mqtt.publish as publish
 import sys
 import datetime
 from sense_hat import SenseHat
 
 sense = SenseHat()
 
-mysock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+hostname = "iot.eclipse.org" # Sandbox broker
+port = 1883 # Default port for unencrypted MQTT
+
+topic_time = "krohak/test/time"
+topic_hum = "krohak/test/hum"
+topic_temp = "krohak/test/temp"
+topic_pres = "krohak/test/pres"
+topic_nor = "krohak/test/nor"
 
 try:
-        ainfo=socket.getaddrinfo("IP",1234)
-        
-        mysock.connect(ainfo[0][4])
-        date=str(datetime.datetime.now())
-        print(date)
-        #mysock.sendall(date)
+
+
+
         humidity = str(sense.get_humidity())
         print(humidity)
-        #mysock.sendall(humidity)
+        publish.single(topic_hum, payload=humidity,
+        	qos=1,
+        	hostname=hostname,
+        	port=port)
+
         temp = str(sense.get_temperature())
         print(temp)
-        #mysock.sendall(temp)
+        publish.single(topic_temp, payload=temp,
+        	qos=1,
+        	hostname=hostname,
+        	port=port)
+
         pressure = str(sense.get_pressure())
         print(pressure)
-        #mysock.sendall(pressure)
+        publish.single(topic_pres, payload=pressure,
+        	qos=1,
+        	hostname=hostname,
+        	port=port)
+
         north = str(sense.get_compass())
         print(north)
-	#mysock.sendall(north)
+        publish.single(topic_nor, payload=north,
+        	qos=1,
+        	hostname=hostname,
+        	port=port)
 
-	#properties={"Time":"","Temperature":"","Pressure":"","Humidity":"","Magnetometer":""})
-        #packet=str('"Time":"'+date+'",'+'"Temperature":"'+temp+'",'+'"Pressure":"'+pressure+'",'+'"Humidity":"'+humidity+'",'+'"Magnetometer":"'+north+'"').encode()
+        date=str(datetime.datetime.now())
+        print(date)
+        publish.single(topic_time, payload=date,
+        	qos=1,
+        	hostname=hostname,
+        	port=port)
 
-	
-
-        packet=str(date+","+temp+","+pressure+","+humidity+","+north).encode()
-        mysock.sendall(packet)
 
 
-except socket.error:
+
+
+except Exception,e:
         print("failed")
+        print(e)
         sys.exit(1)
-
-
-
-mysock.close()
-
