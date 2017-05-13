@@ -2,73 +2,65 @@ from geojson import Feature, Point
 import json
 import sys
 import paho.mqtt.client as mqtt
+import hmac
 
-date=""
-temp=""
-pressure=""
-humidity=""
-north=""
-data=""
 
 hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
 
-topic = "TOPIC"
-topic_time = "TIME"
-topic_hum = "HUM"
-topic_temp = "TEMP"
-topic_pres = "PRES"
-topic_nor = "NOR"
+topic="TOPIC"
+
+
 
 def on_connect(client, userdata, rc):
-        # Successful connection is '0'
-        print("Connection result: " + str(rc))
-        if rc == 0:
-                # Subscribe to topics
-                client.subscribe(topic)
+	# Successful connection is '0'
+	print("Connection result: " + str(rc))
+	if rc == 0:
+		# Subscribe to topics
+		client.subscribe(topic)
 
 def on_message(client, userdata, message):
-        print("Received message on %s: %s (QoS = %s)" %
-                (message.topic, message.payload.decode("utf-8"), str(message.qos)))
-        if(message.topic==topic_hum):
-                global humidity
-                humidity=message.payload.decode("utf-8")
-                print(humidity)
-        elif(message.topic==topic_temp):
-                global temp
-                temp=message.payload.decode("utf-8")
-                print(temp)
-        elif(message.topic==topic_pres):
-                global pressure
-                pressure=message.payload.decode("utf-8")
-                print(pressure)
-        elif(message.topic==topic_nor):
-                global north
-                north=message.payload.decode("utf-8")
-                print(north)
-        elif(message.topic==topic_time):
-                global date
-                date=message.payload.decode("utf-8")
-                print(date)
-
-                packet={"Time":date,"Temperature":temp,"Pressure":pressure,"Humidity":humidity,"Magnetometer":north}
-                print(packet)
+	#print("Received message on %s: %s (QoS = %s)" %
+		#(message.topic, message.payload.decode("utf-8"), str(message.qos)))
 
 
-                my_feature = Feature(geometry=Point((114.234,22.76543)),properties=(packet))
-                #my_feature = Feature(geometry=Point((114.135421,22.283063)),properties=(packet))
+	recv=message.payload.decode("utf-8")
+	hash=recv.split('_')[0]
+	to_hash=recv.split('_')[1]
 
-                with open('protei.geojson') as f:
-                        data = json.load(f)
-                data['features'].append(my_feature)
+	digest_maker = hmac.new('PASSWORD')
+	digest_maker.update(to_hash)
+	digest = digest_maker.hexdigest()
 
-                with open('protei.geojson', 'w') as f:
-                        json.dump(data, f)
+	if(digest==hash):
+		print "ok"
+		packet=json.loads(to_hash)
+		print(hash)
+		print(packet)
+
+
+		prop=packet["properties"]
+		coord=tuple(packet["coordinates"])
+
+		my_feature = Feature(geometry=Point(coord),properties=prop)
+
+
+		with open('protei.geojson') as f:
+			data = json.load(f)
+		data['features'].append(my_feature)
+
+		with open('protei.geojson', 'w') as f:
+    			json.dump(data, f)
+
+	else:
+		print "Data integrity check failed"
+		print "Hash value: %s"%(hash)
+		print "Computer Value: %s"%(digest)
 
 
 def on_disconnect(client, userdata, rc):
-        if rc != 0:
-                print("Disconnected unexpectedly")
+	if rc != 0:
+		print("Disconnected unexpectedly")
 
 
 # Initialize client instance
@@ -85,10 +77,9 @@ client.connect(hostname, port=port)
 # Network loop runs in the background to listen to the events
 client.loop_forever()
 
-
-'''114.11993,22.28397
-114.12705,22.28814
-114.09847,22.28876
-114.12915,22.282231
-
+'''22.28397,114.11993
+22.28814,114.12705
+22.28876,114.09847
+22.282231,114.129151
 '''
+

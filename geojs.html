@@ -37,8 +37,7 @@ alert(e.latlng);});*/
     L.geoJson(data,{
       pointToLayer: function(feature,latlng){
         var marker = L.marker(latlng);
-         marker.bindPopup('Time: '+feature.properties.Time+'<br/>'+'Temperature: '+feature.properties.Temperature + '<br/>' + 'Pressure: '+ feature.properties.Pressure + '<br/>' + 'Humidity: '+ feature.properties.Humidity + '<br/>' +'Location: '+feature.geometry.coordinates + '<br/>' + 'Magnetometer: '+ feature.properties.Magnetometer);
-
+        marker.bindPopup('ID: '+ feature.properties.Device + '<br/>' +'Time: '+feature.properties.Time+'<br/>'+'Temperature: '+feature.properties.Temperature + '<br/>' + 'Pressure: '+ feature.properties.Pressure + '<br/>' + 'Humidity: '+ feature.properties.Humidity + '<br/>' +'Location: '+feature.geometry.coordinates + '<br/>' + 'Magnetometer: '+ feature.properties.Magnetometer);
         return marker;
       }
     }).addTo(map);
@@ -49,5 +48,4 @@ alert(e.latlng);});*/
   </script>
 </body>
 </html>
-
 
