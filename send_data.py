@@ -5,7 +5,6 @@ import hmac
 from sense_hat import SenseHat
 
 sense = SenseHat()
-digest_maker = hmac.new('PASSWORD')
 
 hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
@@ -29,6 +28,7 @@ try:
 
 	qstr=('{"coordinates":%s,"properties":{"Device":%s,"Time":"%s","Temperature":%s,"Pressure":%s,"Humidity":%s,"Magnetometer":%s}}'%(coord,device,date,temp,pressure,humidity,north))
 
+	digest_maker = hmac.new('PASSWORD')
 	digest_maker.update(qstr)
 	
 	digest = digest_maker.hexdigest()
