@@ -2,7 +2,9 @@
 <head>
   <title>A Leaflet map!</title>
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+  <link rel="stylesheet" href="MarkerCluster.css"/>
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="leaflet.markercluster.js"></script>
   <script src="jquery-2.1.1.min.js"></script>
   <style>
     #map{ height: 100% }
@@ -15,7 +17,7 @@
   <script>
 
   // initialize the map
-  var map = L.map('map').setView([22.28814,114.12705], 14);
+  var map = L.map('map').setView([22.28814,114.12705], 11);
 
   // load a tile layer
 /*  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
@@ -26,21 +28,51 @@
     }).addTo(map);*/
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 maxZoom: 19,
+minZoom: 9,
 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+
+
+$.getJSON("neighborhoods.geojson",function(hoodData){
+ L.geoJson( hoodData, {
+   style: function(feature){
+     var fillColor,
+         density = feature.properties.Temperature;
+     if ( density > 30 ) fillColor = "#e41a1c";
+     else if ( density > 20 ) fillColor = "#fdae61";
+     else if ( density > 10 ) fillColor = "#ffffbf";
+     else if ( density > 5 ) fillColor = "#2b83ba";
+     else if ( density > 0 ) fillColor = "#ffffcc";
+     else fillColor = "#f7f7f7";  // no data
+     return { color: "#999", weight: 1, fillColor: fillColor, fillOpacity: .6 };
+   },
+   onEachFeature: function( feature, layer ){
+     layer.bindPopup( "<strong>" + feature.geometry.coordinates[0][0] + "<br/>" + feature.geometry.coordinates[0][1] + "<br/>"+ feature.geometry.coordinates[0][2] + "</strong><br/>"  + "Average Temperature: " + feature.properties.Temperature + "<br/>" + "Average Humidity: " + feature.properties.Humidity + "<br/>"+ "Average Pressure: " + feature.properties.Pressure)
+   }
+ }).addTo(map);
+});
 
 /*map.on('click', function(e) {
 alert(e.latlng);});*/
   // load GeoJSON from an external file
   $.getJSON("protei.geojson",function(data){
     // add GeoJSON layer to the map once the file is loaded
-    L.geoJson(data,{
+  var boats =  L.geoJson(data,{
       pointToLayer: function(feature,latlng){
         var marker = L.marker(latlng);
         marker.bindPopup('ID: '+ feature.properties.Device + '<br/>' +'Time: '+feature.properties.Time+'<br/>'+'Temperature: '+feature.properties.Temperature + '<br/>' + 'Pressure: '+ feature.properties.Pressure + '<br/>' + 'Humidity: '+ feature.properties.Humidity + '<br/>' +'Location: '+feature.geometry.coordinates + '<br/>' + 'Magnetometer: '+ feature.properties.Magnetometer);
         return marker;
       }
-    }).addTo(map);
+    });
+
+
+    var clusters = L.markerClusterGroup();
+   clusters.addLayer(boats);
+   map.addLayer(clusters);
+
+
+
   });
 
 
@@ -48,4 +80,3 @@ alert(e.latlng);});*/
   </script>
 </body>
 </html>
-
