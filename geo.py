@@ -24,64 +24,42 @@ def on_message(client, userdata, message):
 	#print("Received message on %s: %s (QoS = %s)" %
 		#(message.topic, message.payload.decode("utf-8"), str(message.qos)))
 
-	if(message.topic=="TOPIC1"):
-		recv=message.payload.decode("utf-8")
-		hash=recv.split('_')[0]
-		to_hash=recv.split('_')[1]
+	recv=message.payload.decode("utf-8")
+	hash=recv.split('_')[0]
+	to_hash=recv.split('_')[1]
 
-		digest_maker = hmac.new('PASSWORD')
-		digest_maker.update(to_hash)
-		digest = digest_maker.hexdigest()
+	digest_maker = hmac.new('PASSWORD')
+	digest_maker.update(to_hash)
+	digest = digest_maker.hexdigest()
 
-		if(digest==hash):
-			print "ok"
-			packet=json.loads(to_hash)
-			print(hash)
-			print(packet)
+	if(digest==hash):
+		print "ok"
+		packet=json.loads(to_hash)
+		print(hash)
+		print(packet)
+		prop=packet["properties"]
 
-
-			prop=packet["properties"]
+		if(message.topic=="TOPIC1"):
 			coord=tuple(packet["coordinates"])
-
 			my_feature = Feature(geometry=Point(coord),properties=prop)
-
-
-			with open('protei.geojson') as f:
-				data = json.load(f)
-			data['features'].append(my_feature)
-
-			with open('protei.geojson', 'w') as f:
-    				json.dump(data, f)
-
-		else:
-			print "Data integrity check failed"
-			print "Hash value: %s"%(hash)
-			print "Computer Value: %s"%(digest)
-	
-
-	elif(message.topic=="TOPIC2"):
-		recv=message.payload.decode("utf-8")
-		hash=recv.split('_')[0]
-		to_hash=recv.split('_')[1]
-
-		digest_maker = hmac.new('PASSWORD')
-                digest_maker.update(to_hash)
-                digest = digest_maker.hexdigest()
-
-                if(digest==hash):
-                        print "ok"
-                        packet=json.loads(to_hash)
-                        #print(hash)
-                        print(type(packet["coordinates"]))
+			fle='protei.geojson'
+		elif(message.topic=="TOPIC2"):
 			cord_list=[packet["coordinates"]]+[[[0,0]]]
-			print(cord_list)
+			coord=tuple(cord_list)
+			my_feature = Feature(geometry=Polygon(coord),properties=prop)
+			fle='neighborhoods.geojson'
 
+		with open(fle) as f:
+			data = json.load(f)
+		data['features'].append(my_feature)
 
-			prop=packet["properties"]
-                        coord=tuple(cord_list)
+		with open(fle, 'w') as f:
+				json.dump(data, f)
 
-                        my_feature = Feature(geometry=Polygon(coord),properties=prop)
-			print(my_feature)
+	else:
+		print "Data integrity check failed"
+		print "Hash value: %s"%(hash)
+		print "Computer Value: %s"%(digest)
 
 
 
@@ -111,4 +89,3 @@ client.loop_forever()
 22.28876,114.09847
 22.282231,114.129151
 '''
-

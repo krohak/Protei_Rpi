@@ -1,7 +1,5 @@
 {
 "type": "FeatureCollection",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-
 "features": [
 { "type": "Feature", "properties": {"Temperature": 36.125, "Humidity": 59.1834869385, "Pressure": 1003.44165039}, "geometry": { "type": "Polygon", "coordinates":[[[114.090759,22.310975],[114.114822,22.303124],[114.072432,22.293249]],[[0,0]]]}},
 { "type": "Feature", "properties": {"Temperature": 36.125, "Humidity": 59.1834869385, "Pressure": 1003.44165039}, "geometry": { "type": "Polygon", "coordinates":[[[114.114283,22.281255],[114.114845,22.281234],[114.115001,22.281631],[114.113841,22.281769]],[[114.129151,22.282231]]]}},
