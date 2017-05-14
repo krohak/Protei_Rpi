@@ -6,25 +6,41 @@ from sense_hat import SenseHat
 
 sense = SenseHat()
 
-hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
 
-topic_far="TOPIC"
+
+x_cord=float(sys.argv[1])
+y_cord=float(sys.argv[2])
+
+print(sys.argv[1])
+print(sys.argv[2])
+print(sys.argv[3])
+
+def get_details():
+	if(sys.argv[3]=="1"):
+                hostname = "iot.eclipse.org" # Sandbox broker
+                topic_far="TOPIC1"
+		return hostname,topic_far
+        elif(sys.argv[3]=="2"):
+                hostname = "192.168.1.1"
+                topic_far="TOPIC2"
+		return hostname,topic_far
 
 try:
 
 	device="DEVICE#"
-	coord=[114.12915,22.282231]
+	#coord=[114.102757,22.280894]
+	coord=[x_cord,y_cord]
         humidity = str(sense.get_humidity())
-        print(humidity)
+        #print(humidity)
         temp = str(sense.get_temperature())
-        print(temp)
+        #print(temp)
         pressure = str(sense.get_pressure())
-        print(pressure)
+        #print(pressure)
         north = str(sense.get_compass())
-        print(north)
+        #print(north)
 	date=str(datetime.datetime.now())
-        print(date)
+        #print(date)
 
 	qstr=('{"coordinates":%s,"properties":{"Device":%s,"Time":"%s","Temperature":%s,"Pressure":%s,"Humidity":%s,"Magnetometer":%s}}'%(coord,device,date,temp,pressure,humidity,north))
 
@@ -37,6 +53,11 @@ try:
 	to_send=digest+'_'+qstr
 	#to_send="digest"+'_'+qstr
 	
+	hostname,topic_far=get_details()
+
+
+	print(hostname)
+	print(topic_far)
 	publish.single(topic_far, payload=str(to_send),
                 qos=1,
                 hostname=hostname,
