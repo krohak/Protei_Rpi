@@ -1,8 +1,1 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": {"Temperature": 36.125, "Humidity": 59.1834869385, "Pressure": 1003.44165039}, "geometry": { "type": "Polygon", "coordinates":[[[114.090759,22.310975],[114.114822,22.303124],[114.072432,22.293249]],[[0,0]]]}},
-{ "type": "Feature", "properties": {"Temperature": 36.125, "Humidity": 59.1834869385, "Pressure": 1003.44165039}, "geometry": { "type": "Polygon", "coordinates":[[[114.114283,22.281255],[114.114845,22.281234],[114.115001,22.281631],[114.113841,22.281769]],[[114.129151,22.282231]]]}},
-{ "type": "Feature", "properties": {"Temperature": 36.125, "Humidity": 59.1834869385, "Pressure": 1003.44165039}, "geometry": { "type": "Polygon", "coordinates":[[[114.125076,22.285038],[114.125856,22.284958],[114.125534,22.284793]],[[114.129151,22.282231]]]}}
-]
-}
+{"type": "FeatureCollection", "features": [{"geometry": {"type": "Polygon", "coordinates": [[[114.125076, 22.285038], [114.125856, 22.284958], [114.125534, 22.284793]], [[0, 0]]]}, "type": "Feature", "properties": {"Pressure": 1003.66129557, "Temperature": 39.6736094157, "Humidity": 56.2468694051}}, {"geometry": {"type": "Polygon", "coordinates": [[[114.114283, 22.281255], [114.114845, 22.281234], [114.115001, 22.281631]], [[0, 0]]]}, "type": "Feature", "properties": {"Pressure": 1003.58601888, "Temperature": 39.7039922079, "Humidity": 55.8547058105}}]}
