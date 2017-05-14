@@ -1,4 +1,4 @@
-from geojson import Feature, Point
+from geojson import Feature, Point, Polygon
 import json
 import sys
 import paho.mqtt.client as mqtt
@@ -8,8 +8,8 @@ import hmac
 hostname = "iot.eclipse.org" # Sandbox broker
 port = 1883 # Default port for unencrypted MQTT
 
-topic="TOPIC"
-
+topic="TOPIC1"
+topic2="TOPIC2"
 
 
 def on_connect(client, userdata, rc):
@@ -18,44 +18,73 @@ def on_connect(client, userdata, rc):
 	if rc == 0:
 		# Subscribe to topics
 		client.subscribe(topic)
+		client.subscribe(topic2)
 
 def on_message(client, userdata, message):
 	#print("Received message on %s: %s (QoS = %s)" %
 		#(message.topic, message.payload.decode("utf-8"), str(message.qos)))
 
+	if(message.topic=="TOPIC1"):
+		recv=message.payload.decode("utf-8")
+		hash=recv.split('_')[0]
+		to_hash=recv.split('_')[1]
 
-	recv=message.payload.decode("utf-8")
-	hash=recv.split('_')[0]
-	to_hash=recv.split('_')[1]
+		digest_maker = hmac.new('PASSWORD')
+		digest_maker.update(to_hash)
+		digest = digest_maker.hexdigest()
 
-	digest_maker = hmac.new('PASSWORD')
-	digest_maker.update(to_hash)
-	digest = digest_maker.hexdigest()
-
-	if(digest==hash):
-		print "ok"
-		packet=json.loads(to_hash)
-		print(hash)
-		print(packet)
-
-
-		prop=packet["properties"]
-		coord=tuple(packet["coordinates"])
-
-		my_feature = Feature(geometry=Point(coord),properties=prop)
+		if(digest==hash):
+			print "ok"
+			packet=json.loads(to_hash)
+			print(hash)
+			print(packet)
 
 
-		with open('protei.geojson') as f:
-			data = json.load(f)
-		data['features'].append(my_feature)
+			prop=packet["properties"]
+			coord=tuple(packet["coordinates"])
 
-		with open('protei.geojson', 'w') as f:
-    			json.dump(data, f)
+			my_feature = Feature(geometry=Point(coord),properties=prop)
 
-	else:
-		print "Data integrity check failed"
-		print "Hash value: %s"%(hash)
-		print "Computer Value: %s"%(digest)
+
+			with open('protei.geojson') as f:
+				data = json.load(f)
+			data['features'].append(my_feature)
+
+			with open('protei.geojson', 'w') as f:
+    				json.dump(data, f)
+
+		else:
+			print "Data integrity check failed"
+			print "Hash value: %s"%(hash)
+			print "Computer Value: %s"%(digest)
+	
+
+	elif(message.topic=="TOPIC2"):
+		recv=message.payload.decode("utf-8")
+		hash=recv.split('_')[0]
+		to_hash=recv.split('_')[1]
+
+		digest_maker = hmac.new('PASSWORD')
+                digest_maker.update(to_hash)
+                digest = digest_maker.hexdigest()
+
+                if(digest==hash):
+                        print "ok"
+                        packet=json.loads(to_hash)
+                        #print(hash)
+                        print(type(packet["coordinates"]))
+			cord_list=[packet["coordinates"]]+[[[0,0]]]
+			print(cord_list)
+
+
+			prop=packet["properties"]
+                        coord=tuple(cord_list)
+
+                        my_feature = Feature(geometry=Polygon(coord),properties=prop)
+			print(my_feature)
+
+
+
 
 
 def on_disconnect(client, userdata, rc):
