@@ -30,7 +30,7 @@ b. If a central boat (Router Pi) is nearby, the Pi connects to it using Wi-Fi. I
 Thus, The network architecture for communication between the server and Proteis are based on the relative proximities of the boats.
 
 
-
+## Code
 
 ### connect_pi.sh 
     Shell Script to manage Wi-Fi connection
