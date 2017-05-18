@@ -1,7 +1,24 @@
 # Protei_Rpi
 
 ![](https://c1.staticflickr.com/3/2822/34294204205_b1a6fc9184_b.jpg)
+
+[Protei](scoutbots.com), is a modular, shape-shifting sailing robot. Protei_Rpi is an attempt to prototype an IoT network architecture for the collection, analysis and broadcast of ocean data in an efficient manner.
+
+## Goal 
+
+By increasing the amount of available ocean data and incorporating easy to use technologies to access the data, the project would enable scientists, sailors and fishermen to analyse the conditions on the ocean at different locations, thus strengthening the community even further. The huge amount of data could also be used to improve existing oceanic models, such as [HKU Project Waterman](http://www.waterman.hku.hk/).
+
+## Usage
+
+the users would access the data in the form of a map with parameters such as the ** water surface temperature, pressure, humidity, magnetometer, wind speed and acidity (pH) ** based on the ** geolocation ** of the sensors on board Protei.
+
+## System Architecture
+
 ![](https://c1.staticflickr.com/5/4158/34253978676_6f72a60dfc_b.jpg)
+Each individual unit comprises of Protei, a Raspberry Pi and Sense HAT. 
+
+
+
 
 ### connect_pi.sh 
     Shell Script to manage Wi-Fi connection
