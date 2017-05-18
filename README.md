@@ -84,4 +84,4 @@ Thus, The network architecture for communication between the server and Proteis 
 
 ## Future
 
-The two Pi networks were built keeping in mind the cost vs battery trade-off which exists when the boats are at sea. For the purpose of data aggregation on board the Central Boat, instead of using the Wi-Fi bandwidth, LoRa Technology can be utilized to further lower the power consumption and boost up the range to 10-15kms. One of the existing LoRa IoT solutions is the (Seeduino LoRaWAN with GPS)[https://www.seeedstudio.com/Seeeduino-LoRaWAN-W%2FGPS-p-2781.html]
+The two Pi networks were built keeping in mind the cost vs battery trade-off which exists when the boats are at sea. For the purpose of data aggregation on board the Central Boat, instead of using the Wi-Fi bandwidth, LoRa Technology can be utilized to further lower the power consumption and boost up the range to 10-15kms. One of the existing LoRa IoT solutions is the [Seeduino LoRaWAN with GPS](https://www.seeedstudio.com/Seeeduino-LoRaWAN-W%2FGPS-p-2781.html)
