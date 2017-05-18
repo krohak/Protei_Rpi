@@ -14,20 +14,18 @@ the users would access the data in the form of a map with parameters such as the
 
 ## System Architecture
 
-![](https://c1.staticflickr.com/5/4158/34253978676_6f72a60dfc_b.jpg)
-Each individual unit comprises of Protei, a Raspberry Pi and Sense HAT. The Sense HAT measures the temperature, humidity, pressure and orientation The GPS and GSM data has been simulated for this version. 
+Each individual unit comprises of Protei, a Raspberry Pi and Sense HAT. The Sense HAT measures the temperature, humidity, pressure and orientation The GPS and GSM data has been simulated for this version.
+![](https://c1.staticflickr.com/5/4158/34253978676_6f72a60dfc_b.jpg) 
 
 Since the boats are at sea, battery usage has to be minimized. Communication, mainly in the form of GSM, needs to be controlled appropriately, keeping in mind its financial cost and battery usage per message. This leads to a financial cost (frequency of update) vs battery usage trade-off.
 
 Two different Pi networks are implemented so that we are able to obtain more data while we save energy in the following ways:
 
+a. If the central boat (Router Pi) is not nearby, we switch off the Wi-Fi and send the data directly to the server using the simulated GSM.
 ![](https://c1.staticflickr.com/5/4175/33452619374_47e23333da_b.jpg)
 
-a. If the central boat (Router Pi) is not nearby, we switch off the Wi-Fi and send the data directly to the server using the simulated GSM.
-
-![](https://c1.staticflickr.com/3/2846/33452617874_d067a5c853_b.jpg)
-
 b. If a central boat (Router Pi) is nearby, the Pi connects to it using Wi-Fi. It then sends the data to the the central boat, which aggregates the data from multiple boats and sends it to the server.
+![](https://c1.staticflickr.com/3/2846/33452617874_d067a5c853_b.jpg)
 
 Thus, The network architecture for communication between the server and Proteis are based on the relative proximities of the boats.
 
