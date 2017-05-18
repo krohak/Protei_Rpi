@@ -10,7 +10,7 @@ By increasing the amount of available ocean data and incorporating easy to use t
 
 ## Usage
 
-the users would access the data in the form of a map with parameters such as the ** water surface temperature, pressure, humidity, magnetometer, wind speed and acidity (pH) ** based on the ** geolocation ** of the sensors on board Protei.
+the users would access the data in the form of a map with parameters such as the **water surface temperature, pressure, humidity, magnetometer, wind speed and acidity (pH)** based on the **geolocation** of the sensors on board Protei.
 
 ## System Architecture
 
