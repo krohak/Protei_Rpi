@@ -27,9 +27,9 @@ def on_message(client, userdata, msg):
 		hash=(msg.payload.decode("utf-8")).split("_")[0]
 		print(("Received Hash: %s")%(hash))
 		data=(msg.payload.decode("utf-8")).split("_")[1]
-		digest_maker = hmac.new('PASSWORD') #for validating the data from a specific. We could have different passwords for each sensor in the network
+		digest_maker = hmac.new('PASSWORD') #for validating the data from a boat. We could have different passwords for each sensor network
         	digest_maker.update(data)
-		digest = digest_maker.hexdigest() #if hexdigest of the unit and the one of the server match, it will process the data
+		digest = digest_maker.hexdigest() #if recieved and computed hexdigests match, it will process the data
 		print(("Computed Hash: %s")%(digest))
 
 
