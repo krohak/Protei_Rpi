@@ -5,8 +5,9 @@ import time
 import hmac
 import json
 
-count=0
-max=3
+count=0 #everytime it receive data from other boat, it will go up. If it receives 3, it will resets
+max=3 #Threshold value
+
 
 hostname = "iot.eclipse.org"
 topic_near="krohak/near"
@@ -26,9 +27,9 @@ def on_message(client, userdata, msg):
 		hash=(msg.payload.decode("utf-8")).split("_")[0]
 		print(("Received Hash: %s")%(hash))
 		data=(msg.payload.decode("utf-8")).split("_")[1]
-		digest_maker = hmac.new('PASSWORD')
+		digest_maker = hmac.new('PASSWORD') #for validating the data from a specific. We could have different passwords for each sensor in the network
         	digest_maker.update(data)
-		digest = digest_maker.hexdigest()
+		digest = digest_maker.hexdigest() #if hexdigest of the unit and the one of the server match, it will process the data
 		print(("Computed Hash: %s")%(digest))
 
 
@@ -91,7 +92,7 @@ while True:
 		avg_hum/=count
 		avg_pres/=count
 		qstr=('{"coordinates":%s,"properties":{"Temperature":%s,"Pressure":%s,"Humidity":%s}}'%(cord_list,avg_temp,avg_pres,avg_hum))
-		print(qstr)
+		print(qstr) #Average 
 		digest_maker = hmac.new('PASSWORD')
 		digest_maker.update(qstr)
 		digest = digest_maker.hexdigest()
