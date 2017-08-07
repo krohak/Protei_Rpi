@@ -2,7 +2,7 @@
 
 ![](https://c1.staticflickr.com/3/2822/34294204205_b1a6fc9184_b.jpg)
 
-[Protei](scoutbots.com), is a modular, shape-shifting sailing robot. Protei_Rpi is an attempt to prototype an IoT network architecture for the collection, analysis and broadcast of ocean data in an efficient manner.
+[Protei](https://www.scoutbots.com/), is a modular, shape-shifting sailing robot. Protei_Rpi is an attempt to prototype an IoT network architecture for the collection, analysis and broadcast of ocean data in an efficient manner.
 
 ## Goal 
 
